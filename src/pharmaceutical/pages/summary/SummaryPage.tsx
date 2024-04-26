@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
-import { useCheckInformation } from "../../../hooks";
+import { useContext, useEffect, useState } from "react";
+
 import { PharmaceuticalLayout } from "../../layout"
+import { InformationContext } from "../../../context";
 
 import styles from './SummaryPage.module.css';
 
 
 export const SummaryPage = () => {
 
-  const { sales, clients, suppliers, products } = useCheckInformation();
+  const { sales, clients, suppliers, products } = useContext( InformationContext );
   const [totalSales, setTotalSales] = useState<number>(0);
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [totalClients, setTotalClients] = useState<number>(0);

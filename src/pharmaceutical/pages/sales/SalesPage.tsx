@@ -1,16 +1,16 @@
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useCheckInformation } from '../../../hooks';
+
 import { PharmaceuticalLayout } from '../../layout'
-import { useEffect, useState } from 'react';
 import { Sale, SaleDetail } from '../../../domain/models';
+import { InformationContext } from '../../../context';
 
 import styles from './SalesPage.module.css';
 
 
 export const SalesPage = () => {
 
-  const { sales } = useCheckInformation();
-
+  const { sales } = useContext( InformationContext );
   const [ totalSales, setTotalSales ] = useState<number>(0);
 
   useEffect(() => {

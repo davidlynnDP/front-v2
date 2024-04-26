@@ -20,6 +20,7 @@ interface InformationContextProps {
     suppliers: Supplier[];
     products: Product[];
     sales: Sale[];
+    isLoading: boolean;
 
     //clients
     createClient: (createClientParams: CreateClientParams) => Promise<Client>;

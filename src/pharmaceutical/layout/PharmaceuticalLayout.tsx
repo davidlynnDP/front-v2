@@ -1,8 +1,10 @@
-import { FC, ReactNode } from "react";
+import { FC, ReactNode, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCheckAuth } from "../../hooks";
+
+import { AuthContext } from "../../context";
 
 import styles from './PharmaceuticalLayout.module.css';
+
 
 interface NavItem {
   path: string;
@@ -24,10 +26,10 @@ const navItems: NavItem[] = [
 export const PharmaceuticalLayout: FC<PharmaceuticalLayoutProps> = ({ children }) => {
 
   const navigate = useNavigate();
-  const { handleLogout, isLoading } = useCheckAuth();
+  const { logout, isLoading } = useContext( AuthContext );
 
-  const logout = () => {
-    handleLogout();
+  const handleLogout = () => {
+    logout();
     navigate('/auth/sign-in');
   };
 
@@ -45,7 +47,7 @@ export const PharmaceuticalLayout: FC<PharmaceuticalLayoutProps> = ({ children }
             }
             <li className={ styles.container__btn }>
               <button 
-                onClick={ logout }
+                onClick={ handleLogout }
                 className={ styles.btn }
                 disabled={ isLoading } >
                   Logout

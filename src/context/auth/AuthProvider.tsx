@@ -1,4 +1,4 @@
-import { FC, ReactNode, useReducer } from 'react';
+import { FC, ReactNode, useReducer, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { SignInParams, SignUpParams, UpdateUserParams } from '../../domain/interfaces';
 import { authReducer } from './authReducer';
@@ -36,16 +36,21 @@ interface AuthProviderProps {
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const [ state, dispatch ] = useReducer( authReducer, AUTH_INITIAL_STATE );
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
+    
     const authRepository: AuthRepository = new PharmaRenderAuthRepositoyImpl();
 
     const signIn = async(signInParams: SignInParams) => {
         try {
+            setIsLoading(true);
             const user = await authRepository.signIn( signInParams );
             const payload: AuthState = {
                 user,
                 status: AuthStatus.Authenticated
             }
             dispatch({ type: '[Auth] - Sign In', payload });
+            setIsLoading(false);
         } catch ( error ) {
             console.log( error );
         }
@@ -53,12 +58,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const signUp = async(signUpParams: SignUpParams) => {
         try {
+            setIsLoading(true);
             const user = await authRepository.signUp( signUpParams );
             const payload: AuthState = {
                 user,
                 status: AuthStatus.Authenticated
             }
             dispatch({ type: '[Auth] - Sign Up', payload });
+            setIsLoading(false);
         } catch ( error ) {
             console.log( error );
         }
@@ -66,12 +73,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const reNewToken = async() => {
         try {
+            setIsLoading(true);
             const user = await authRepository.reNewToken();
             const payload: AuthState = {
                 user,
                 status: AuthStatus.Authenticated
             }
             dispatch({ type: '[Auth] - Renew Token', payload });
+            setIsLoading(false);
         } catch ( error ) {
             console.log( error );
         }
@@ -87,12 +96,14 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const updateUser = async(id: string, updateUserParams: UpdateUserParams) => {
         try {
+            setIsLoading(true);
             const user = await authRepository.updateUser( id, updateUserParams );
             const payload: AuthState = {
                 user,
                 status: AuthStatus.Authenticated
             }
             dispatch({ type: '[Auth] - Update User', payload });
+            setIsLoading(false);
         } catch ( error ) {
             console.log( error );
         }
@@ -100,26 +111,31 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
 
     const deleteUser = async(id: string) => {
         try {
+            setIsLoading(true);
             const user = await authRepository.deleteUser( id );
             const payload: AuthState = {
                 user,
                 status: AuthStatus.Authenticated
             }
             dispatch({ type: '[Auth] - Delete User', payload });
+            setIsLoading(false);
         } catch ( error ) {
             console.log( error );
         }
     };
 
     const logout = () => {
+        setIsLoading(true);
         dispatch({ type: '[Auth] - Logout' });
         localStorage.removeItem('token');
         localStorage.removeItem('tokenIssuedAt');
+        setIsLoading(false);
     };
 
     return (
         <AuthContext.Provider value={{
             ...state,
+            isLoading,
 
             signIn,
             signUp,

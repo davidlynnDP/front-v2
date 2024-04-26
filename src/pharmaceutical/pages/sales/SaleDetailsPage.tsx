@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Sale, SaleDetail } from "../../../domain/models";
 import { PharmaceuticalLayout } from "../../layout"
-import { useCheckInformation } from "../../../hooks";
+import { InformationContext } from "../../../context";
 
 import styles from './SaleDetailsPage.module.css';
+
 
 const SaleNotFound = () => {
   return <div className={ styles.not__found }>Sale not found!</div>;
@@ -14,7 +15,7 @@ const SaleNotFound = () => {
 export const SaleDetailsPage = () => {
 
   const { saleId } = useParams<{ saleId: string }>();
-  const { sales } = useCheckInformation();
+  const { sales } = useContext( InformationContext );
   const [ sale, setSale ] = useState<Sale | undefined>(undefined);
 
   useEffect(() => {

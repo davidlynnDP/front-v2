@@ -1,12 +1,15 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useCheckInformation } from "../../../hooks";
+
+import { InformationContext } from "../../../context";
 import { PharmaceuticalLayout } from "../../layout"
 
 import styles from './ProductsPage.module.css';
 
+
 export const ProductsPage = () => {
 
-  const { products } = useCheckInformation();
+  const { products } = useContext( InformationContext );
   
   return (
     <PharmaceuticalLayout>
@@ -20,8 +23,8 @@ export const ProductsPage = () => {
             </div>
             <div className={ styles.cards__product }>
               {
-                products.map(({ id, name, description, stocks, price, images }) => (
-                  <div key={ id } className={ styles.card }>
+                products.map(({ id, name, description, stocks, price, images }, index) => (
+                  <div key={`${ id }-${ index }`} className={ styles.card }>
                     {
                       images && images.length > 0 && (
                         <img src={ images[0].url } alt={`Image of ${ name }`} className={ styles.image__product } />

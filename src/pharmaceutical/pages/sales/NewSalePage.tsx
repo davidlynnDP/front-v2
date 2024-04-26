@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
 
 import { PharmaceuticalLayout } from "../../layout"
-import { useCheckInformation } from "../../../hooks";
+import { InformationContext } from "../../../context";
 
 import styles from './NewSalePage.module.css';
 
@@ -21,13 +22,13 @@ interface Values {
 
 export const NewSalePage = () => {
 
-  const { handleCreateSale, isLoading, products, clients } = useCheckInformation();
+  const { createSale, isLoading, products, clients } = useContext( InformationContext );
   const navigate = useNavigate();
 
   const onSubmit = async(values: Values) => {
 
     try {
-      await handleCreateSale({
+      await createSale({
         items: values.items
       }, { client: values.clientId });
       navigate('/sales');

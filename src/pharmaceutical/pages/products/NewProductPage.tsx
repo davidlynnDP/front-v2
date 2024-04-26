@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
 
 import { PharmaceuticalLayout } from "../../layout"
-import { useCheckInformation } from "../../../hooks";
+import { InformationContext } from "../../../context";
 
 import styles from './NewProductPage.module.css';
 
@@ -28,7 +29,7 @@ interface Values {
 
 export const NewProductPage = () => {
 
-  const { handleCreateProduct, isLoading, suppliers } = useCheckInformation();
+  const { isLoading, suppliers, createProduct } = useContext( InformationContext );
   const navigate = useNavigate();
 
   const onSubmit = async(values: Values) => {
@@ -37,7 +38,7 @@ export const NewProductPage = () => {
       if (values.files === null) {
         throw new Error('Please select at least one image.');
       }
-      await handleCreateProduct({
+      await createProduct({
         name: values.name,
         description: values.description,
         stocks: Number( values.stocks ),

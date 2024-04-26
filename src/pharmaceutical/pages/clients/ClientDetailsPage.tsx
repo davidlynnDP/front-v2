@@ -1,13 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 
-import { useCheckInformation } from "../../../hooks";
 import { PharmaceuticalLayout } from "../../layout"
 import { Client } from "../../../domain/models";
+import { InformationContext } from "../../../context";
 
 import styles from './ClientDetailsPage.module.css';
+
 
 interface Values {
   name: string;
@@ -24,7 +25,7 @@ export const ClientDetailsPage = () => {
 
   const { clientId } = useParams<{ clientId: string }>();
   const navigate = useNavigate();
-  const { handleUpdateClient, handleDeleteClient, clients, isLoading } = useCheckInformation();
+  const { clients, isLoading, updateClient, deleteClient } = useContext( InformationContext );
   const [ client, setClient ] = useState<Client | undefined>(undefined);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export const ClientDetailsPage = () => {
 
     if ( !client ) return;
     try {
-      await handleUpdateClient( client.id, {
+      await updateClient( client.id, {
         name: values.name,
         phone: values.phone,
         email: values.email
@@ -53,7 +54,7 @@ export const ClientDetailsPage = () => {
 
     if ( !client ) return;
     try {
-      await handleDeleteClient( client.id );
+      await deleteClient( client.id );
       navigate('/clients');
     } catch (error) {
       console.log( error );

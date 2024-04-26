@@ -1,12 +1,15 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useCheckInformation } from "../../../hooks"
+
 import { PharmaceuticalLayout } from "../../layout"
+import { InformationContext } from "../../../context";
 
 import styles from './ClientsPage.module.css';
 
+
 export const ClientsPage = () => {
 
-  const { clients } = useCheckInformation();
+  const { clients } = useContext( InformationContext );
 
   return (
     <PharmaceuticalLayout>
@@ -20,8 +23,8 @@ export const ClientsPage = () => {
             </div>
             <div className={ styles.cards__client }>
               {
-                clients.map(({ id, name, phone, email, registrationDate }) => (
-                  <div key={ id } className={ styles.card }>
+                clients.map(({ id, name, phone, email, registrationDate }, index) => (
+                  <div key={`${ id }-${ index }`} className={ styles.card }>
                     <h3 className={ styles.name__client }>{ name }</h3>
                     <p className={ styles.id__client }>ID: { id }</p>
                     <p className={ styles.phone__client }>Phone: { phone }</p>

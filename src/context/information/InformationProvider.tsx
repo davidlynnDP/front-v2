@@ -40,8 +40,10 @@ interface InformationProviderProps {
 export const InformationProvider: FC<InformationProviderProps> = ({ children }) => {
 
     const [ state, dispatch ] = useReducer( informationReducer, INFORMATION_INITIAL_STATE );
-    const pharmaRepository: PharmaRepository = new PharmaRenderRepositoryImpl();
     const [ refreshCounter, setRefreshCounter ] = useState(0);
+    const [ isLoading, setIsLoading ] = useState<boolean>(false);
+
+    const pharmaRepository: PharmaRepository = new PharmaRenderRepositoryImpl();
 
     useEffect(() => {
         findAllClients({ limit: 10, offset: 0 });
@@ -59,9 +61,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
 
     const createClient = async(createClientParams: CreateClientParams): Promise<Client> => {
         try {
+          setIsLoading(true);
           const client = await pharmaRepository.createClient(createClientParams);
           dispatch({ type: '[Information] - Create Client', payload: client });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return client;
         } catch (error) {
             console.log(error);
@@ -71,8 +75,10 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const findAllClients = async(paginationParams: PaginationParams): Promise<Client[]> => {
         try {
+          setIsLoading(true);
           const clients = await pharmaRepository.findAllClients(paginationParams);
           dispatch({ type: '[Information] - Set Clients', payload: clients });
+          setIsLoading(false);
           return clients;
         } catch (error) {
             console.log(error);
@@ -91,9 +97,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const updateClient = async (id: string, updateClientParams: UpdateClientParams): Promise<Client> => {
         try {
+          setIsLoading(true);
           const client = await pharmaRepository.updateClient(id, updateClientParams);
           dispatch({ type: '[Information] - Update Client', payload: client });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return client;
         } catch (error) {
             console.log(error);
@@ -103,9 +111,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const deleteClient = async (id: string): Promise<void> => {
         try {
+          setIsLoading(true);
           await pharmaRepository.deleteClient(id);
           dispatch({ type: '[Information] - Delete Client', payload: id });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
         } catch (error) {
             console.log(error);
             throw error;
@@ -114,9 +124,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
 
       const createSupplier = async (createSupplierParams: CreateSupplierParams): Promise<Supplier> => {
         try {
+          setIsLoading(true);
           const supplier = await pharmaRepository.createSupplier(createSupplierParams);
           dispatch({ type: '[Information] - Create Supplier', payload: supplier });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return supplier;
         } catch (error) {
             console.log(error);
@@ -126,8 +138,10 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const findAllSuppliers = async (paginationParams: PaginationParams): Promise<Supplier[]> => {
         try {
+          setIsLoading(true);
           const suppliers = await pharmaRepository.findAllSuppliers(paginationParams);
           dispatch({ type: '[Information] - Set Suppliers', payload: suppliers });
+          setIsLoading(false);
           return suppliers;
         } catch (error) {
             console.log(error);
@@ -146,9 +160,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const updateSupplier = async (id: string, updateSupplierParams: UpdateSupplierParams): Promise<Supplier> => {
         try {
+          setIsLoading(true);
           const supplier = await pharmaRepository.updateSupplier(id, updateSupplierParams);
           dispatch({ type: '[Information] - Update Supplier', payload: supplier });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return supplier;
         } catch (error) {
             console.log(error);
@@ -158,9 +174,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const deleteSupplier = async (id: string): Promise<void> => {
         try {
+          setIsLoading(true);
           await pharmaRepository.deleteSupplier(id);
           dispatch({ type: '[Information] - Delete Supplier', payload: id });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
         } catch (error) {
             console.log(error);
             throw error;
@@ -169,9 +187,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
 
       const createProduct = async (createProductParams: CreateProductParams, createProductQuery: CreateProductQuery): Promise<Product> => {
         try {
+          setIsLoading(true);
           const product = await pharmaRepository.createProduct(createProductParams, createProductQuery);
           dispatch({ type: '[Information] - Create Product', payload: product });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return product;
         } catch (error) {
             console.log(error);
@@ -181,8 +201,10 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const findAllProducts = async (paginationParams: PaginationParams): Promise<Product[]> => {
         try {
+          setIsLoading(true);
           const products = await pharmaRepository.findAllProducts(paginationParams);
           dispatch({ type: '[Information] - Set Products', payload: products });
+          setIsLoading(false);
           return products;
         } catch (error) {
             console.log(error);
@@ -201,9 +223,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const updateProduct = async (id: string, updateProductParams: UpdateProductParams, updateProductQuery: UpdateProductQuery): Promise<Product> => {
         try {
+          setIsLoading(true);
           const product = await pharmaRepository.updateProduct(id, updateProductParams, updateProductQuery);
           dispatch({ type: '[Information] - Update Product', payload: product });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return product;
         } catch (error) {
             console.log(error);
@@ -213,9 +237,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const deleteProduct = async (id: string): Promise<void> => {
         try {
+          setIsLoading(true);
           await pharmaRepository.deleteProduct(id);
           dispatch({ type: '[Information] - Delete Product', payload: id });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
         } catch (error) {
             console.log(error);
             throw error;
@@ -224,9 +250,11 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
 
       const createSale = async (createSaleParams: CreateSaleParams, createSaleQuery: CreateSaleQuery): Promise<Sale> => {
         try {
+          setIsLoading(true);
           const sale = await pharmaRepository.createSale(createSaleParams, createSaleQuery);
           dispatch({ type: '[Information] - Create Sale', payload: sale });
           setRefreshCounter(prev => prev + 1); 
+          setIsLoading(false);
           return sale; 
         } catch (error) {
             console.log(error);
@@ -236,8 +264,10 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     
       const findAllSales = async (paginationParams: PaginationParams): Promise<Sale[]> => {
         try {
+          setIsLoading(true);
           const sales = await pharmaRepository.findAllSales(paginationParams);
           dispatch({ type: '[Information] - Set Sales', payload: sales });
+          setIsLoading(false);
           return sales;
         } catch (error) {
             console.log(error);
@@ -257,6 +287,7 @@ export const InformationProvider: FC<InformationProviderProps> = ({ children }) 
     return (
         <InformationContext.Provider value={{
             ...state,
+            isLoading,
 
             //clients
             createClient,

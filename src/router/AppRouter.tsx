@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import { AuthRoutes } from "../auth/routes";
 import { PharmaceuticalRoutes } from "../pharmaceutical/routes";
-import { useCheckAuth } from "../hooks";
+import { AuthContext } from "../context";
+
 
 enum AuthStatus {
   NotAuthenticated = 'not-authenticated',
@@ -10,7 +13,7 @@ enum AuthStatus {
 
 export const AppRouter = () => {
 
-  const { status } = useCheckAuth();
+  const { status } = useContext( AuthContext );
 
   return (
     <Routes>

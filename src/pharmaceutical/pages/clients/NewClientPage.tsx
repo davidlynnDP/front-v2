@@ -1,15 +1,17 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
 
 import { PharmaceuticalLayout } from "../../layout"
-import { useCheckInformation } from "../../../hooks";
+import { InformationContext } from "../../../context";
 
 import styles from './NewClientPage.module.css';
 
+
 export const NewClientPage = () => {
 
-  const { handleCreateClient, isLoading } = useCheckInformation();
+  const { isLoading, createClient } = useContext( InformationContext );
   const navigate = useNavigate();
 
   const { handleSubmit, errors, touched, getFieldProps, resetForm } = useFormik({
@@ -19,7 +21,7 @@ export const NewClientPage = () => {
       email: '',
     },
     onSubmit: async( values ) => {
-      await handleCreateClient({
+      await createClient({
         name: values.name,
         phone: values.phone,
         email: values.email

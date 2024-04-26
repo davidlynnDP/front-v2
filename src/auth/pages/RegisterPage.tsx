@@ -1,16 +1,17 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../layout"
-import { useCheckAuth } from "../../hooks";
+import { AuthContext } from "../../context";
 
 import styles from './RegisterPage.module.css';
 
 
 export const RegisterPage = () => {
 
-  const { handleSignUp, isLoading } = useCheckAuth();
+  const { signUp, isLoading } = useContext( AuthContext );
   const navigate = useNavigate();
 
   const { handleSubmit, errors, touched, getFieldProps, resetForm } = useFormik({
@@ -21,7 +22,7 @@ export const RegisterPage = () => {
       confirmPassword: '',
     },
     onSubmit: async( values ) => {
-      await handleSignUp({ email: values.email, password: values.password, username: values.username });
+      await signUp({ email: values.email, password: values.password, username: values.username });
       navigate('/');
     },
     validationSchema: Yup.object({

@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
 
 import { AuthLayout } from "../layout";
-import { useCheckAuth } from "../../hooks";
+import { AuthContext } from "../../context";
 
 import styles from './LoginPage.module.css';
 
@@ -11,7 +12,7 @@ import styles from './LoginPage.module.css';
 
 export const LoginPage = () => {
 
-  const { handleSignIn, isLoading } = useCheckAuth();
+  const { signIn, isLoading } = useContext( AuthContext );
   const navigate = useNavigate();
 
   const { handleSubmit, errors, touched, getFieldProps, resetForm } = useFormik({
@@ -20,7 +21,7 @@ export const LoginPage = () => {
       email: '',
     },
     onSubmit: async( values ) => {
-      await handleSignIn({ email: values.email, password: values.password });
+      await signIn({ email: values.email, password: values.password });
       navigate('/');
     },
     validationSchema: Yup.object({

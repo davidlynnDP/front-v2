@@ -1,9 +1,10 @@
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { useNavigate, Link } from "react-router-dom";
 
-import { useCheckInformation } from "../../../hooks";
 import { PharmaceuticalLayout } from "../../layout"
+import { InformationContext } from "../../../context";
 
 import styles from './NewSupplierPage.module.css';
 
@@ -21,7 +22,7 @@ interface Values {
 
 export const NewSupplierPage = () => {
 
-  const { handleCreateSupplier, isLoading } = useCheckInformation();
+  const { createSupplier, isLoading } = useContext( InformationContext );
   const navigate = useNavigate();
 
   const { handleSubmit, errors, touched, getFieldProps, resetForm } = useFormik({
@@ -34,7 +35,7 @@ export const NewSupplierPage = () => {
       postalCode: '',
     },
     onSubmit: async( values: Values ) => {
-      await handleCreateSupplier({
+      await createSupplier({
         phone: values.phone,
         email: values.email,
         address: values.address,

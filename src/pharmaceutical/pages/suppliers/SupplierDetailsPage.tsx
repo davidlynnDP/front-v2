@@ -1,13 +1,14 @@
+import { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { PharmaceuticalLayout } from "../../layout"
-import { useCheckInformation } from "../../../hooks";
 import { Supplier } from "../../../domain/models";
-import { useEffect, useState } from "react";
+import { InformationContext } from "../../../context";
 
 import styles from './SupplierDetailsPage.module.css';
+
 
 interface Values {
   phone: string;
@@ -27,7 +28,7 @@ export const SupplierDetailsPage = () => {
 
   const { supplierId } = useParams<{ supplierId: string }>();
   const navigate = useNavigate();
-  const { handleUpdateSupplier, handleDeleteSupplier, suppliers, isLoading } = useCheckInformation();
+  const { suppliers, isLoading, updateSupplier, deleteSupplier } = useContext( InformationContext );
   const [ supplier, setSupplier ] = useState<Supplier | undefined>(undefined);
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const SupplierDetailsPage = () => {
 
     if ( !supplier ) return;
     try {
-      await handleUpdateSupplier( supplier.id, {
+      await updateSupplier( supplier.id, {
         phone: values.phone,
         email: values.email,
         address: values.address,
@@ -59,7 +60,7 @@ export const SupplierDetailsPage = () => {
 
     if ( !supplier ) return;
     try {
-      await handleDeleteSupplier( supplier.id );
+      await deleteSupplier( supplier.id );
       navigate('/suppliers');
     } catch (error) {
       console.log( error );

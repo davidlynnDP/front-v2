@@ -1,11 +1,11 @@
+import { useContext, useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 import { PharmaceuticalLayout } from "../../layout"
-import { useCheckInformation } from "../../../hooks";
 import { Product } from "../../../domain/models";
-import { useEffect, useState } from "react";
+import { InformationContext } from "../../../context";
 
 import styles from './ProductDetailsPage.module.css';
 
@@ -37,7 +37,7 @@ export const ProductDetailsPage = () => {
 
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
-  const { handleUpdateProduct, handleDeleteProduct, isLoading, suppliers, products } = useCheckInformation();
+  const { isLoading, suppliers, products, updateProduct, deleteProduct } = useContext( InformationContext );
   const [ product, setProduct ] = useState<Product | undefined>(undefined);
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const ProductDetailsPage = () => {
       if (values.files === null) {
         throw new Error('Please select at least one image.');
       }
-      await handleUpdateProduct( product.id, {
+      await updateProduct( product.id, {
         name: values.name,
         description: values.description,
         stocks: Number( values.stocks ),
@@ -71,7 +71,7 @@ export const ProductDetailsPage = () => {
 
     if ( !product ) return;
     try {
-      await handleDeleteProduct( product.id );
+      await deleteProduct( product.id );
       navigate('/products');
     } catch (error) {
       console.log( error );

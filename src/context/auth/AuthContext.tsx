@@ -11,6 +11,7 @@ enum AuthStatus {
 interface AuthContextProps {
     user: User;
     status: AuthStatus;
+    isLoading: boolean;
 
     signIn: (signInParams: SignInParams) => Promise<void>;
     signUp: (signUpParams: SignUpParams) => Promise<void>;
