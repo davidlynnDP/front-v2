@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import { PharmaceuticalLayout } from "../../layout"
 import { Client } from "../../../domain/models";
 import { InformationContext } from "../../../context";
+import { useDetailsPage } from "../../../hooks";
 
 import styles from './ClientDetailsPage.module.css';
 
@@ -26,14 +27,7 @@ export const ClientDetailsPage = () => {
   const { clientId } = useParams<{ clientId: string }>();
   const navigate = useNavigate();
   const { clients, isLoading, updateClient, deleteClient } = useContext( InformationContext );
-  const [ client, setClient ] = useState<Client | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchedClient = clients.find( client => client.id === clientId );
-    if ( fetchedClient ) {
-      setClient( fetchedClient );
-    }
-  }, [ clientId, clients ]);
+  const client = useDetailsPage<Client>({ objArr: clients, param: clientId });
 
   const onSubmit = async(values: Values) => {
 

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PharmaceuticalLayout } from "../../layout"
 import { Product } from "../../../domain/models";
 import { InformationContext } from "../../../context";
+import { useDetailsPage } from "../../../hooks";
 
 import styles from './ProductDetailsPage.module.css';
 
@@ -38,14 +39,7 @@ export const ProductDetailsPage = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
   const { isLoading, suppliers, products, updateProduct, deleteProduct } = useContext( InformationContext );
-  const [ product, setProduct ] = useState<Product | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchedProduct = products.find( product => product.id === productId );
-    if ( fetchedProduct ) {
-      setProduct( fetchedProduct );
-    }
-  }, [ productId, products ]);
+  const product = useDetailsPage<Product>({ objArr: products, param: productId });
 
   const onSubmit = async(values: Values) => {
 

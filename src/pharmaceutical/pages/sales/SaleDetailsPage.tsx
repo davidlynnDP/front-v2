@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import { Sale, SaleDetail } from "../../../domain/models";
 import { PharmaceuticalLayout } from "../../layout"
 import { InformationContext } from "../../../context";
+import { useDetailsPage } from "../../../hooks";
 
 import styles from './SaleDetailsPage.module.css';
 
@@ -16,14 +17,7 @@ export const SaleDetailsPage = () => {
 
   const { saleId } = useParams<{ saleId: string }>();
   const { sales } = useContext( InformationContext );
-  const [ sale, setSale ] = useState<Sale | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchedSale = sales.find( sale => sale.id === saleId );
-    if ( fetchedSale ) {
-      setSale( fetchedSale );
-    }
-  }, [ saleId, sales ]);
+  const sale = useDetailsPage<Sale>({ objArr: sales, param: saleId });
 
   const calculateTotalSingleSale = (saleDetails: SaleDetail[]): number => {
     let total = 0;

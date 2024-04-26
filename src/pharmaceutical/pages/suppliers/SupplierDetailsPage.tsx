@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { PharmaceuticalLayout } from "../../layout"
 import { Supplier } from "../../../domain/models";
 import { InformationContext } from "../../../context";
+import { useDetailsPage } from "../../../hooks";
 
 import styles from './SupplierDetailsPage.module.css';
 
@@ -29,14 +30,7 @@ export const SupplierDetailsPage = () => {
   const { supplierId } = useParams<{ supplierId: string }>();
   const navigate = useNavigate();
   const { suppliers, isLoading, updateSupplier, deleteSupplier } = useContext( InformationContext );
-  const [ supplier, setSupplier ] = useState<Supplier | undefined>(undefined);
-
-  useEffect(() => {
-    const fetchedSupplier = suppliers.find( supplier => supplier.id === supplierId );
-    if ( fetchedSupplier ) {
-      setSupplier( fetchedSupplier );
-    }
-  }, [ supplierId, suppliers ]);
+  const supplier = useDetailsPage<Supplier>({ objArr: suppliers, param: supplierId });
 
   const onSubmit = async(values: Values) => {
 
