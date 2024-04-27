@@ -90,3 +90,32 @@
 .btn__back_sale:hover {
   background-color: #0056b3;
 }
+
+.generate__container {
+  text-align: center;
+  margin-top: 20px; /* Ajusta el margen superior según sea necesario */
+}
+
+.btn__generate {
+  background-color: #4CAF50; /* Color de fondo verde */
+  border: none;
+  color: white;
+  padding: 10px 20px; /* Ajusta el padding según sea necesario */
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 5px; /* Bordes redondeados */
+  transition-duration: 0.4s; /* Duración de la transición */
+}
+
+.btn__generate:hover {
+  background-color: #45a049; /* Cambia el color de fondo al pasar el mouse */
+}
+
+.btn__generate:disabled {
+  background-color: #cccccc; /* Color de fondo gris para el botón desactivado */
+  cursor: not-allowed; /* Cambia el cursor al desactivar el botón */
+}

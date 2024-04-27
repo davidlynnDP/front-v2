@@ -8,6 +8,7 @@ interface DetailsPageOptions<T> {
     param: string | undefined;
 }
 
+//T se espera sea uno de los tipos definidos en DetailType
 export const useDetailsPage = <T extends DetailType>({ objArr, param }: DetailsPageOptions<T>): T | undefined => {
 
     const [ data, setData ] = useState<T | undefined>(undefined);

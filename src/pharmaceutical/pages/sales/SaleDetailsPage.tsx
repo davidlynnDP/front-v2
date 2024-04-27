@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { Sale, SaleDetail } from "../../../domain/models";
 import { PharmaceuticalLayout } from "../../layout"
 import { InformationContext } from "../../../context";
-import { useDetailsPage } from "../../../hooks";
+import { useDetailsPage, useJsPDF } from "../../../hooks";
 
 import styles from './SaleDetailsPage.module.css';
 
@@ -18,6 +18,7 @@ export const SaleDetailsPage = () => {
   const { saleId } = useParams<{ saleId: string }>();
   const { sales } = useContext( InformationContext );
   const sale = useDetailsPage<Sale>({ objArr: sales, param: saleId });
+  const { generatePDF, isGenerating } = useJsPDF( sale );
 
   const calculateTotalSingleSale = (saleDetails: SaleDetail[]): number => {
     let total = 0;
@@ -78,6 +79,16 @@ export const SaleDetailsPage = () => {
             <strong className={ styles.total__amount }>Total: </strong>
             <p className={ styles.total__amount__p }>  ${ calculateTotalSingleSale( sale.saleDetails ) }</p>
           </div>
+        </div>
+        <div className={ styles.generate__container }>
+          <button 
+            onClick={ generatePDF } 
+            className={ styles.btn__generate }
+            disabled={ isGenerating }>
+              {
+                isGenerating ? 'Generating PDF...' : 'Export PDF'
+              }
+          </button>
         </div>
         <Link to="/sales" className={ styles.btn__back_sale }>
           Back to Sales
