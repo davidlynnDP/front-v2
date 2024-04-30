@@ -41,6 +41,22 @@
   padding: 0;
 }
 
+.stat__value__list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Estilo para cada nombre de cliente */
+.stat__name__client {
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.stat__sales__count {
+  font-size: 14px;
+  color: #666;
+}
+
 .stat__list__item {
   padding: 15px;
   border-radius: 8px;

@@ -1,7 +1,9 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
 
 import { AuthLayout } from "../layout";
 import { AuthContext } from "../../context";
@@ -13,6 +15,7 @@ import styles from './LoginPage.module.css';
 export const LoginPage = () => {
 
   const { signIn, isLoading } = useContext( AuthContext );
+  const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
 
   const { handleSubmit, errors, touched, getFieldProps, resetForm } = useFormik({
@@ -33,6 +36,10 @@ export const LoginPage = () => {
     })
   });
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); 
+  };
+
   return (
     <AuthLayout>
       <div className={ styles.login__container }>
@@ -50,12 +57,19 @@ export const LoginPage = () => {
           </div>
           <div className={ styles.container__input }>
             <label htmlFor="password" className={ styles.input__name }>Contraseña:</label>
-            <input 
-              type="password" 
-              id="password" 
+            <input
+              type={ showPassword ? "text" : "password" }
+              id="password"
               className={ styles.input__text }
               {...getFieldProps("password")} 
             />
+            <button
+                type="button"
+                className={ styles.toggle__password__visibility }
+                onClick={ togglePasswordVisibility }
+              >
+                { showPassword ? <FaEyeSlash /> : <FaEye /> }
+              </button>
             { touched.password && errors.password ? <div className={ styles.input__error }>{ errors.password }</div> : null }
           </div>
           <div className={ styles.btn__container }>

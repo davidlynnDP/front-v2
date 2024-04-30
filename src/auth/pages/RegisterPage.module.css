@@ -31,6 +31,8 @@
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
+
+    position: relative;
   }
   
   .input__name {
@@ -57,6 +59,27 @@
     font-size: 14px;
     color: #ff0000;
     margin-top: 5px;
+  }
+
+  .toggle__password__visibility {
+    margin-top: 12px;
+    position: absolute; /* Posición absoluta para superponer el botón sobre el campo de contraseña */
+    right: 10px; /* Alinea el botón a la derecha del campo de contraseña */
+    top: 50%; /* Centra verticalmente el botón */
+    transform: translateY(-50%); /* Ajusta la posición vertical para centrar el botón */
+    background: none; /* Fondo transparente para que el botón se mezcle con el diseño */
+    border: none; /* Sin borde para que el botón se vea limpio */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    padding: 0; /* Sin relleno para que el botón se vea más limpio */
+    outline: none; /* Quita el contorno al hacer clic en el botón */
+    display: flex; /* Usa flexbox para alinear el contenido */
+    align-items: center; /* Centra verticalmente el contenido del botón */
+  }
+  
+  .toggle__password__visibility svg {
+    width: 20px; /* Ajusta el tamaño del icono */
+    height: auto; /* Permite que la altura se ajuste automáticamente */
+    color: #666; /* Color del icono */
   }
   
   .btn__container {

@@ -13,6 +13,7 @@ export const SummaryPage = () => {
   const [totalProducts, setTotalProducts] = useState<number>(0);
   const [totalClients, setTotalClients] = useState<number>(0);
   const [totalSuppliers, setTotalSuppliers] = useState<number>(0);
+  const [totalSoldProducts, setTotalSoldProducts] = useState<number>(0);
 
   useEffect(() => {
     const totalSalesCount = sales.length;
@@ -25,6 +26,16 @@ export const SummaryPage = () => {
     setTotalClients(totalClientsCount);
     setTotalSuppliers(totalSuppliersCount);
   }, [ sales, clients, suppliers, products ]);
+
+  useEffect(() => {
+    const totalSoldProductsCount = sales.reduce((acc, sale) => {
+      sale.saleDetails.forEach((detail) => {
+        acc += detail.quantity;
+      });
+      return acc;
+    }, 0);
+    setTotalSoldProducts(totalSoldProductsCount);
+  }, [ sales ]);
 
   return (
     <PharmaceuticalLayout>
@@ -50,6 +61,10 @@ export const SummaryPage = () => {
           <div className={ styles.stat__div }>
             <h3 className={ styles.stat__title }>Products Out of Stock</h3>
             <p className={ styles.stat__value }>{ products.filter((product) => product.stocks === 0).length }</p>
+          </div>
+          <div className={styles.stat__div}>
+            <h3 className={styles.stat__title}>Total Sold Products</h3>
+            <p className={styles.stat__value}>{ totalSoldProducts }</p>
           </div>
           <div className={ styles.stat__div }>
             <h3 className={ styles.stat__title }>Average Price</h3>

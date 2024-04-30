@@ -1,7 +1,8 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import { Link, useNavigate } from "react-router-dom";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { AuthLayout } from "../layout"
 import { AuthContext } from "../../context";
@@ -12,6 +13,7 @@ import styles from './RegisterPage.module.css';
 export const RegisterPage = () => {
 
   const { signUp, isLoading } = useContext( AuthContext );
+  const [ showPassword, setShowPassword ] = useState(false);
   const navigate = useNavigate();
 
   const { handleSubmit, errors, touched, getFieldProps, resetForm } = useFormik({
@@ -38,6 +40,10 @@ export const RegisterPage = () => {
         .required('Confirma tu contraseña'),
     })
   });
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); 
+  };
   
   return (
     <AuthLayout>
@@ -67,21 +73,35 @@ export const RegisterPage = () => {
           <div className={ styles.container__input }>
             <label htmlFor="password" className={ styles.input__name }>Password:</label>
             <input 
-              type="password" 
+              type={ showPassword ? "text" : "password" } 
               id="password" 
               className={ styles.input__text }
               {...getFieldProps('password')} 
             />
+            <button
+              type="button"
+              className={ styles.toggle__password__visibility }
+              onClick={ togglePasswordVisibility }
+            >
+              { showPassword ? <FaEyeSlash /> : <FaEye /> }
+            </button>
             { touched.password && errors.password ? <div className={ styles.input__error }>{ errors.password }</div> : null }
           </div>
           <div className={ styles.container__input }>
             <label htmlFor="confirmPassword" className={ styles.input__name }>Confirmar Password:</label>
             <input 
-              type="password" 
+              type={ showPassword ? "text" : "password" } 
               id="confirmPassword"
               className={ styles.input__text } 
               {...getFieldProps('confirmPassword')}
             />
+            <button
+              type="button"
+              className={ styles.toggle__password__visibility }
+              onClick={ togglePasswordVisibility }
+            >
+              { showPassword ? <FaEyeSlash /> : <FaEye /> }
+            </button>
             { touched.confirmPassword && errors.confirmPassword ? <div className={ styles.input__error }>{ errors.confirmPassword }</div> : null }
           </div>
           <div className={ styles.btn__container }>
